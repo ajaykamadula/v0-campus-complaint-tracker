@@ -49,13 +49,13 @@ export default function TrackComplaintPage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 py-8">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Track Your Complaint</h1>
-          <p className="text-gray-600">Enter your complaint ID to see the latest updates</p>
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Track Your Complaint</h1>
+          <p className="text-sm sm:text-base text-gray-600">Enter your complaint ID to see the latest updates</p>
         </div>
 
         <div className="max-w-md mx-auto mb-8">
-          <Card className="p-8 shadow-lg">
+          <Card className="p-4 sm:p-8 shadow-lg">
             <form onSubmit={handleSearch} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Complaint ID</label>
@@ -65,27 +65,31 @@ export default function TrackComplaintPage() {
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
                     placeholder="Enter complaint ID"
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="flex-1 px-4 py-3 sm:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
                   />
-                  <Button type="submit" disabled={loading} className="bg-blue-600 hover:bg-blue-700">
+                  <Button
+                    type="submit"
+                    disabled={loading}
+                    className="bg-blue-600 hover:bg-blue-700 px-3 sm:px-4 py-3 sm:py-2"
+                  >
                     <Search className="w-4 h-4" />
                   </Button>
                 </div>
               </div>
-              {error && <p className="text-red-600 text-sm">{error}</p>}
+              {error && <p className="text-red-600 text-xs sm:text-sm">{error}</p>}
             </form>
           </Card>
         </div>
 
         {complaint && (
           <div className="max-w-2xl mx-auto space-y-6">
-            <Card className="p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">{complaint.title}</h2>
+            <Card className="p-4 sm:p-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 break-words">{complaint.title}</h2>
               <div className="space-y-3 mb-6">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Status:</span>
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
+                  <span className="text-gray-600 text-sm">Status:</span>
                   <span
-                    className={`font-semibold ${
+                    className={`font-semibold text-sm sm:text-base ${
                       complaint.status === "resolved"
                         ? "text-green-600"
                         : complaint.status === "in_progress"
@@ -96,26 +100,26 @@ export default function TrackComplaintPage() {
                     {complaint.status.replace("_", " ").toUpperCase()}
                   </span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Category:</span>
-                  <span className="font-semibold">{complaint.category}</span>
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
+                  <span className="text-gray-600 text-sm">Category:</span>
+                  <span className="font-semibold text-sm">{complaint.category}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Priority:</span>
-                  <span className="font-semibold">{complaint.priority.toUpperCase()}</span>
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
+                  <span className="text-gray-600 text-sm">Priority:</span>
+                  <span className="font-semibold text-sm">{complaint.priority.toUpperCase()}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Reported:</span>
-                  <span className="font-semibold">{new Date(complaint.created_at).toLocaleDateString()}</span>
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
+                  <span className="text-gray-600 text-sm">Reported:</span>
+                  <span className="font-semibold text-sm">{new Date(complaint.created_at).toLocaleDateString()}</span>
                 </div>
               </div>
               <div className="border-t pt-4">
-                <p className="text-gray-600 text-sm mb-2">Description:</p>
-                <p className="text-gray-700">{complaint.description}</p>
+                <p className="text-gray-600 text-xs sm:text-sm mb-2">Description:</p>
+                <p className="text-gray-700 text-sm">{complaint.description}</p>
               </div>
             </Card>
 
-            <Card className="p-6">
+            <Card className="p-4 sm:p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Updates</h3>
               {complaintId && <ComplaintStatus complaintId={complaintId} />}
             </Card>

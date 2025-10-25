@@ -66,44 +66,46 @@ export default function AdminDashboard() {
   return (
     <main className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900">Admin Dashboard</h1>
-            <p className="text-gray-600 mt-1">Manage and track all campus complaints</p>
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">Admin Dashboard</h1>
+            <p className="text-gray-600 mt-1 text-sm sm:text-base">Manage and track all campus complaints</p>
           </div>
           <Link href="/">
-            <Button variant="outline">← Back to Home</Button>
+            <Button variant="outline" className="w-full sm:w-auto bg-transparent">
+              ← Back to Home
+            </Button>
           </Link>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <Card className="p-6">
-            <p className="text-gray-600 text-sm mb-2">Total Complaints</p>
-            <p className="text-3xl font-bold text-gray-900">{stats.total}</p>
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
+          <Card className="p-4 sm:p-6">
+            <p className="text-gray-600 text-xs sm:text-sm mb-2">Total Complaints</p>
+            <p className="text-2xl sm:text-3xl font-bold text-gray-900">{stats.total}</p>
           </Card>
-          <Card className="p-6 border-l-4 border-red-500">
-            <p className="text-gray-600 text-sm mb-2">Open</p>
-            <p className="text-3xl font-bold text-red-600">{stats.open}</p>
+          <Card className="p-4 sm:p-6 border-l-4 border-red-500">
+            <p className="text-gray-600 text-xs sm:text-sm mb-2">Open</p>
+            <p className="text-2xl sm:text-3xl font-bold text-red-600">{stats.open}</p>
           </Card>
-          <Card className="p-6 border-l-4 border-yellow-500">
-            <p className="text-gray-600 text-sm mb-2">In Progress</p>
-            <p className="text-3xl font-bold text-yellow-600">{stats.inProgress}</p>
+          <Card className="p-4 sm:p-6 border-l-4 border-yellow-500">
+            <p className="text-gray-600 text-xs sm:text-sm mb-2">In Progress</p>
+            <p className="text-2xl sm:text-3xl font-bold text-yellow-600">{stats.inProgress}</p>
           </Card>
-          <Card className="p-6 border-l-4 border-green-500">
-            <p className="text-gray-600 text-sm mb-2">Resolved</p>
-            <p className="text-3xl font-bold text-green-600">{stats.resolved}</p>
+          <Card className="p-4 sm:p-6 border-l-4 border-green-500">
+            <p className="text-gray-600 text-xs sm:text-sm mb-2">Resolved</p>
+            <p className="text-2xl sm:text-3xl font-bold text-green-600">{stats.resolved}</p>
           </Card>
         </div>
 
         {/* Filters */}
-        <div className="mb-6 flex gap-2">
+        <div className="mb-6 flex flex-wrap gap-2">
           {["all", "open", "in_progress", "resolved"].map((status) => (
             <Button
               key={status}
               onClick={() => setFilter(status)}
               variant={filter === status ? "default" : "outline"}
-              className={filter === status ? "bg-blue-600" : ""}
+              className={`text-xs sm:text-sm py-2 sm:py-2 px-3 sm:px-4 transition-all duration-300 ease-in-out ${filter === status ? "bg-blue-600" : ""}`}
             >
               {status.replace("_", " ").toUpperCase()}
             </Button>
@@ -118,15 +120,15 @@ export default function AdminDashboard() {
             <Card className="p-8 text-center text-gray-500">No complaints found</Card>
           ) : (
             filteredComplaints.map((complaint) => (
-              <Card key={complaint.id} className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900">{complaint.title}</h3>
-                    <p className="text-sm text-gray-600 mt-1">{complaint.description}</p>
+              <Card key={complaint.id} className="p-4 sm:p-6">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-900 break-words">{complaint.title}</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">{complaint.description}</p>
                   </div>
-                  <div className="flex gap-2 ml-4">
+                  <div className="flex gap-2 flex-shrink-0">
                     <span
-                      className={`px-3 py-1 rounded-full text-xs font-medium ${
+                      className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
                         complaint.priority === "urgent"
                           ? "bg-red-100 text-red-700"
                           : complaint.priority === "high"
@@ -141,12 +143,12 @@ export default function AdminDashboard() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="flex gap-4 text-sm text-gray-600">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs sm:text-sm text-gray-600">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <span>Category: {complaint.category}</span>
                     <span>Reported: {new Date(complaint.created_at).toLocaleDateString()}</span>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 flex-wrap">
                     {complaint.status !== "resolved" && (
                       <>
                         {complaint.status === "open" && (
@@ -154,6 +156,7 @@ export default function AdminDashboard() {
                             onClick={() => updateComplaintStatus(complaint.id, "in_progress")}
                             size="sm"
                             variant="outline"
+                            className="text-xs py-1 px-2 h-auto"
                           >
                             Start Work
                           </Button>
@@ -163,6 +166,7 @@ export default function AdminDashboard() {
                             onClick={() => updateComplaintStatus(complaint.id, "resolved")}
                             size="sm"
                             variant="outline"
+                            className="text-xs py-1 px-2 h-auto"
                           >
                             Mark Resolved
                           </Button>
